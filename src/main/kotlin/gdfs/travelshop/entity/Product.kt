@@ -1,38 +1,61 @@
 package gdfs.travelshop.entity
 
 import jakarta.persistence.*
-import lombok.*
 import java.time.LocalDateTime
 import java.util.*
 
 @Entity
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
-class Product {
+class Product(
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private var id: UUID? = null
+    var id: UUID? = null,
 
     @Column(nullable = false, length = 200)
-    private var title: String? = null
+    var title: String? = null,
 
     @Column(columnDefinition = "TEXT")
-    private var description: String? = null
+    var description: String? = null,
 
     @Column(nullable = false, length = 100)
-    private var location: String? = null
+    var location: String? = null,
 
     @Column(nullable = false)
-    private var price: Int? = null
+    var price: Int? = null,
 
-    private var imageUrl: String? = null
+    var imageUrl: String? = null,
 
-    private var createdAt: LocalDateTime? = null
+    var createdAt: LocalDateTime? = null
+) {
+    constructor() : this(null, null, null, null, null, null, null)
+
+    companion object {
+        fun builder() = ProductBuilder()
+    }
 
     @PrePersist
     protected fun onCreate() {
-        this.createdAt = LocalDateTime.now()
+        if (this.createdAt == null) {
+            this.createdAt = LocalDateTime.now()
+        }
     }
+}
+
+class ProductBuilder {
+    private var id: UUID? = null
+    private var title: String? = null
+    private var description: String? = null
+    private var location: String? = null
+    private var price: Int? = null
+    private var imageUrl: String? = null
+    private var createdAt: LocalDateTime? = null
+
+    fun id(id: UUID?) = apply { this.id = id }
+    fun title(title: String?) = apply { this.title = title }
+    fun description(description: String?) = apply { this.description = description }
+    fun location(location: String?) = apply { this.location = location }
+    fun price(price: Int?) = apply { this.price = price }
+    fun imageUrl(imageUrl: String?) = apply { this.imageUrl = imageUrl }
+    fun createdAt(createdAt: LocalDateTime?) = apply { this.createdAt = createdAt }
+
+    fun build() = Product(id, title, description, location, price, imageUrl, createdAt)
 }

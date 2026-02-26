@@ -1,33 +1,50 @@
 package gdfs.travelshop.entity
 
 import jakarta.persistence.*
-import lombok.*
 import java.time.LocalDateTime
 import java.util.*
 
 @Entity
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
 @Table(name = "orders")
-class Order {
+class Order(
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private var id: UUID? = null
+    var id: UUID? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private var user: User? = null
+    var user: User? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
-    private var product: Product? = null
+    var product: Product? = null,
 
-    private var createdAt: LocalDateTime? = null
+    var createdAt: LocalDateTime? = null
+) {
+    constructor() : this(null, null, null, null)
+
+    companion object {
+        fun builder() = OrderBuilder()
+    }
 
     @PrePersist
     protected fun onCreate() {
-        this.createdAt = LocalDateTime.now()
+        if (this.createdAt == null) {
+            this.createdAt = LocalDateTime.now()
+        }
     }
+}
+
+class OrderBuilder {
+    private var id: UUID? = null
+    private var user: User? = null
+    private var product: Product? = null
+    private var createdAt: LocalDateTime? = null
+
+    fun id(id: UUID?) = apply { this.id = id }
+    fun user(user: User?) = apply { this.user = user }
+    fun product(product: Product?) = apply { this.product = product }
+    fun createdAt(createdAt: LocalDateTime?) = apply { this.createdAt = createdAt }
+
+    fun build() = Order(id, user, product, createdAt)
 }
