@@ -4,9 +4,9 @@ spring:
 
 
   datasource:
-    url:
-    username:
-    password:
+    url: jdbc:mysql://gdfs-travel-shop-backend.czy46y0aw9bh.ap-southeast-2.rds.amazonaws.com:3306/mysql?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: admin
+    password: jinkaw-xuZbu9-nitnuc
 
   jpa:
     hibernate:
