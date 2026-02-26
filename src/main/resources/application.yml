@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: travel-shop
+
+
+  datasource:
+    url:
+    username:
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: update
