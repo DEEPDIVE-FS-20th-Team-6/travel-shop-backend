@@ -39,3 +39,9 @@ out/
 ### Kotlin ###
 .kotlin
 src/test/kotlin/gdfs/travelshop/repository/
+
+### for Agents ###
+AGENTS.md
+
+### key file ###
+.pem
